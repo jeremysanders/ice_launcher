@@ -56,7 +56,7 @@ allowed_modes = set(['copy_aac'])
 # options in [mount.X] sections
 mount_opts = [
     Option('mode', default='copy_aac'),
-    Option('url'),
+    Option('input'),
     Option('name'),
     Option('description'),
     Option('genre'),
@@ -89,5 +89,5 @@ class Config:
                 mode = self.mounts[mount]['mode']
                 if mode not in allowed_modes:
                     raise RuntimeError('Mode "%s" is unknown' % mode)
-                if not self.mounts[mount]['url']:
-                    raise RuntimeError('No URL given for mount "%s"' % mount)
+                if not self.mounts[mount]['input']:
+                    raise RuntimeError('No input given for mount "%s"' % mount)

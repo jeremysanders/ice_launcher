@@ -20,7 +20,7 @@ def start_source(mount, conf):
     cmd = [
         'ffmpeg',
         '-re',   # realtime
-        '-i', mount_conf['url'], # input url
+        '-i', mount_conf['input'], # input url (or file)
         '-vn',   # no video
     ]
 
