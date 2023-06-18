@@ -3,7 +3,7 @@
 ## Introduction
 This project starts an ffmpeg process on demand and sends its output to icecast2, when the icecast stream is accessed by a listener.
 The aim of this project was to be able to convert a stream in HLS format ([HTTP Live Streaming](https://en.wikipedia.org/wiki/HTTP_Live_Streaming)) to an icecast stream.
-This was to allow playing of an HLS stream to an older internet radio, when icecast support was dropped by a large UK media company.
+This was to allow playing of an HLS stream to an older internet radio, when icecast support was dropped by a large UK media organisation.
 Ideally this conversion of the stream should happen on demand, in order not to waste CPU power or bandwidth, particularly as we would like to convert several different streams when accessed.
 Therefore this project listens to the icecast server and starts and stops the converting ffmpeg process as is needed.
 
