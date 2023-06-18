@@ -83,6 +83,8 @@ For each stream there should be `[mount.mount_name]` defined, where `mount_name`
 
 * `public`: whether stream should be public (default False)
 
+* `mode`: conversion mode (default `copy_aac`). Only `copy_aac` is supported currently.
+
 ## Using icecast\_launcher
 
 By default, the program will read configuration from the file `ice_launcher.conf`.
@@ -96,12 +98,20 @@ You can also pass an alternative configuration filename:
 
 * If using for non-personal use, please make sure that the copyright holder agrees with its use.
 
+* Unfortunately, this program doesn't yet properly detect if the ffmpeg process is properly started. It just waits for a configured interval before returning to icecast.
+
+* Currently the program only copies AAC to an adts output stream. No transcoding is yet supported. This means devices must support AAC audio.
+
 ## Tested devices
 
 * [Roberts 83i](https://www.robertsradiotechnical.co.uk/productpage.aspx?pid=STREAM%2083i)
 
 ## Future work
 
-* Add user authentication
+* Add user authentication.
 
-* Monitor ffmpeg status and restart if necessary
+* Monitor ffmpeg status and restart if necessary.
+
+* Detect if ffmpeg has properly started before returning.
+
+* Add optional transcoding.
