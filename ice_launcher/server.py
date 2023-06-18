@@ -104,6 +104,13 @@ class HTTPHandler(BaseHTTPRequestHandler):
         params = {k: v[0] for k, v in params.items()}
 
         if params['action'] == 'listener_add':
+            # hide status page if requested
+            if self.server.conf.main['icecast_forbid_status'] and (
+                    params['mount'] in {
+                        '/', '/status.xsl', '/server_version.xsl'}):
+                self.send_negative_response()
+                return
+
             try:
                 self.listener_add(params)
             except sources.IceLaunchError:

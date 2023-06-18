@@ -63,6 +63,8 @@ For each stream there should be `[mount.mount_name]` defined, where `mount_name`
 
 * `legacy_icecast`: set to True for icecast older than 2.4 (default False)
 
+* `icecast_forbid_status`: disable icecast status page by forbidding access to all
+
 * `ffmpeg_wait`: how long in seconds to wait for ffmpeg to properly start (default 1.0)
 
 * `ffmpeg_verbose`: show verbose output from ffmpeg (default False)

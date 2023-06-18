@@ -43,6 +43,7 @@ main_opts = [
     Option('icecast_port', default=8000, dtype='int'),
     Option('icecast_user', default='source'),
     Option('icecast_password', default='password'),
+    Option('icecast_forbid_status', default=False, dtype='bool'),
     Option('legacy_icecast', default=False, dtype='bool'),
 
     Option('ffmpeg_wait', default=1.0, dtype='float'),
