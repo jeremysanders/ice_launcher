@@ -1,5 +1,0 @@
-#!/usr/bin/env python3
-
-import ice_launcher_mod.main
-
-ice_launcher_mod.main.main()
