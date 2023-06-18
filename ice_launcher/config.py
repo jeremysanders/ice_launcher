@@ -38,11 +38,11 @@ main_opts = [
     Option('listen_address', default='127.0.0.1'),
     Option('listen_port', default=9854, dtype='int'),
 
-    Option('icecast_host', default='localhost'),
+    Option('icecast_host', default='127.0.0.1'),
     Option('icecast_port', default=8000, dtype='int'),
     Option('icecast_user', default='source'),
     Option('icecast_password', default='password'),
-    Option('legacy_icecast', default=True, dtype='bool'),
+    Option('legacy_icecast', default=False, dtype='bool'),
 
     Option('ffmpeg_wait', default=1.0, dtype='float'),
     Option('ffmpeg_verbose', default=False, dtype='bool'),
@@ -60,6 +60,7 @@ mount_opts = [
     Option('name'),
     Option('description'),
     Option('genre'),
+    Option('public', default=False),
 ]
 
 class Config:
@@ -87,6 +88,6 @@ class Config:
                 # checks for options
                 mode = self.mounts[mount]['mode']
                 if mode not in allowed_modes:
-                    raise RuntimeError('Mode %s is unknown' % mode)
+                    raise RuntimeError('Mode "%s" is unknown' % mode)
                 if not self.mounts[mount]['url']:
-                    raise RuntimeError('No URL given for mount %s' % mount)
+                    raise RuntimeError('No URL given for mount "%s"' % mount)

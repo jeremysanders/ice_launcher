@@ -7,6 +7,10 @@ import subprocess
 import time
 import logging
 
+class IceLaunchError(RuntimeError):
+    """Exception for problems launching the process."""
+    pass
+
 def start_source(mount, conf):
     """Start source for mount given."""
 
@@ -35,6 +39,9 @@ def start_source(mount, conf):
         if val:
             cmd += [ffmpegopt, val]
 
+    # is this a public stream? (0=False)
+    cmd += ['-ice_public', str(int(mount_conf['public']))]
+
     # disable ffmpeg output if not verbose
     if not conf.main['ffmpeg_verbose']:
         cmd += ['-loglevel', 'error', '-hide_banner']
@@ -56,11 +63,20 @@ def start_source(mount, conf):
         mount, str(cmd)))
 
     # start ffmpeg process
-    popen = subprocess.Popen(cmd)
+    try:
+        popen = subprocess.Popen(cmd)
+    except Exception:
+        logging.error('ffmpeg process for mount "%s" did not start' % mount)
+        raise IceLaunchError('ffmpeg process failed to start')
 
     # wait until ffmpeg is hopefully running ok
     # there should be a better way to do this, but ffmpeg output needs to be parsed
     time.sleep(conf.main['ffmpeg_wait'])
+
+    if popen.poll() is not None:
+        logging.error(
+            'ffmpeg process for mount "%s" died after starting' % mount)
+        raise IceLaunchError('ffmpeg process failed to start')
 
     return popen
 
