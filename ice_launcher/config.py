@@ -1,7 +1,12 @@
+# icelaunch: Read configuration
+#
+# Copyright Jeremy Sanders (2023)
+# Released under the MIT Licence
+
 import configparser
 
 class Option:
-    '''Define option in ConfigFile.
+    '''Define option in configuration file.
 
     name: name of option
     default: default value if not present
@@ -42,6 +47,8 @@ main_opts = [
     Option('ffmpeg_wait', default=1.0, dtype='float'),
     Option('ffmpeg_verbose', default=False, dtype='bool'),
     Option('ffmpeg_agent'),
+
+    Option('log_level', default='info'),
 ]
 
 allowed_modes = set(['copy_aac'])

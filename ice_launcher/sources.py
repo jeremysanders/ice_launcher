@@ -1,22 +1,27 @@
+# icelaunch: Launch sources
+#
+# Copyright Jeremy Sanders (2023)
+# Released under the MIT Licence
+
 import subprocess
 import time
 import logging
 
-def start_source(mount, config):
+def start_source(mount, conf):
     """Start source for mount given."""
 
-    # config options for mount
-    mount_config = config.mounts[mount]
+    # conf options for mount
+    mount_conf = conf.mounts[mount]
 
     cmd = [
         'ffmpeg',
         '-re',   # realtime
-        '-i', mount_config['url'], # input url
+        '-i', mount_conf['url'], # input url
         '-vn',   # no video
     ]
 
-    if mount_config['mode'] == 'copy_aac':
-        cmd += get_options_mode_copy_aac(mount, config)
+    if mount_conf['mode'] == 'copy_aac':
+        cmd += get_options_mode_copy_aac(mount, conf)
     else:
         raise RuntimeError('Invalid mode')
 
@@ -26,25 +31,25 @@ def start_source(mount, config):
             ('description', '-ice_description'),
             ('genre', '-ice_genre'),
             ):
-        val = mount_config[confname]
+        val = mount_conf[confname]
         if val:
             cmd += [ffmpegopt, val]
 
     # disable ffmpeg output if not verbose
-    if not config.main['ffmpeg_verbose']:
+    if not conf.main['ffmpeg_verbose']:
         cmd += ['-loglevel', 'error', '-hide_banner']
 
-    if config.main['legacy_icecast']:
+    if conf.main['legacy_icecast']:
         cmd += ['-legacy_icecast', '1']
-    if config.main['ffmpeg_agent']:
-        cmd += ['-user_agent', config.main['ffmpeg_agent']]
+    if conf.main['ffmpeg_agent']:
+        cmd += ['-user_agent', conf.main['ffmpeg_agent']]
 
     # output connection
     cmd.append('icecast://%s:%s@%s:%d/%s' % (
-        config.main['icecast_user'],
-        config.main['icecast_password'],
-        config.main['icecast_host'],
-        config.main['icecast_port'],
+        conf.main['icecast_user'],
+        conf.main['icecast_password'],
+        conf.main['icecast_host'],
+        conf.main['icecast_port'],
         mount,
     ))
     logging.info(" starting ffmpeg command for mount %s (%s)" % (
@@ -55,11 +60,11 @@ def start_source(mount, config):
 
     # wait until ffmpeg is hopefully running ok
     # there should be a better way to do this, but ffmpeg output needs to be parsed
-    time.sleep(config.main['ffmpeg_wait'])
+    time.sleep(conf.main['ffmpeg_wait'])
 
     return popen
 
-def get_options_mode_copy_aac(mount, config):
+def get_options_mode_copy_aac(mount, conf):
     """Specific options for copy_aac mode."""
     return [
         '-acodec', 'copy',
