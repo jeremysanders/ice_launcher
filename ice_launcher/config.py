@@ -4,6 +4,7 @@
 # Released under the MIT Licence
 
 import configparser
+import os.path
 
 class Option:
     '''Define option in configuration file.
@@ -68,6 +69,9 @@ class Config:
 
     def __init__(self, filename):
         conffile = configparser.ConfigParser()
+        if not os.path.exists(filename):
+            raise RuntimeError(
+                'Configuration file "%s" does not exist' % filename)
         conffile.read(filename)
 
         # read main section

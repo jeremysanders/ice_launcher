@@ -3,12 +3,25 @@
 # Copyright Jeremy Sanders (2023)
 # Released under the MIT Licence
 
-from . import config
-from .server import run_server
+import argparse
 import logging
 
+from . import config
+from .server import run_server
+
 def main():
-    conf = config.Config('ice_launcher.conf')
+    parser = argparse.ArgumentParser(
+        prog='ice_launcher',
+        description='Launch ffmpeg source processes on demand for icecast2',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        '--config', default='ice_launcher.conf',
+        help='Input configuration file',
+    )
+    args = parser.parse_args()
+
+    conf = config.Config(args.config)
 
     loglevels = {
         'critical': logging.CRITICAL,
