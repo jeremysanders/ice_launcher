@@ -2,8 +2,8 @@
 
 ## Introduction
 This project starts an ffmpeg process on demand and sends its output to icecast2, when the icecast stream is accessed by a listener.
-The aim of this project was to be able to convert a stream in HSL format ([HTTP Live Streaming](https://en.wikipedia.org/wiki/HTTP_Live_Streaming)) to an icecast stream.
-This was to allow playing of an HSL stream to an older internet radio, when icecast support was dropped by a large UK media company.
+The aim of this project was to be able to convert a stream in HLS format ([HTTP Live Streaming](https://en.wikipedia.org/wiki/HTTP_Live_Streaming)) to an icecast stream.
+This was to allow playing of an HLS stream to an older internet radio, when icecast support was dropped by a large UK media company.
 Ideally this conversion of the stream should happen on demand, in order not to waste CPU power or bandwidth, particularly as we would like to convert several different streams when accessed.
 Therefore this project listens to the icecast server and starts and stops the converting ffmpeg process as is needed.
 
@@ -83,7 +83,7 @@ For each stream there should be `[mount.mount_name]` defined, where `mount_name`
 
 * `public`: whether stream should be public (default False)
 
-* `mode`: conversion mode (default `copy_aac`). Only `copy_aac` is supported currently.
+* `mode`: operation mode (default `copy_aac`). Only `copy_aac` is supported currently.
 
 ## Using icecast\_launcher
 
@@ -115,3 +115,5 @@ You can also pass an alternative configuration filename:
 * Detect if ffmpeg has properly started before returning.
 
 * Add optional transcoding.
+
+* Write Python setup script for installing
