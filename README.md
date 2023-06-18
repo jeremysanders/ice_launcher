@@ -65,6 +65,8 @@ For each stream there should be `[mount.mount_name]` defined, where `mount_name`
 
 * `icecast_forbid_status`: disable icecast status page by forbidding access to all
 
+* `allow_users`: space-separated list of user:password pairs (e.g. "tom:pass foo:bar"). If not given, then allow all (default).
+
 * `ffmpeg_wait`: how long in seconds to wait for ffmpeg to properly start (default 1.0)
 
 * `ffmpeg_verbose`: show verbose output from ffmpeg (default False)

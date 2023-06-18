@@ -93,6 +93,26 @@ class HTTPHandler(BaseHTTPRequestHandler):
                     logging.info('no more clients left for mount "%s"' % mount)
                     self.stop_source(mount)
 
+    def check_user_password(self, params):
+        """Check if provided user details match allowed users."""
+        users = self.server.conf.allow_users
+        if users:
+            if 'user' not in params:
+                logging.warning('User not provided, but needed')
+                return False
+            elif 'pass' not in params:
+                logging.warning('Pass not provided, but needed')
+                return False
+            elif params['user'] not in users:
+                logging.warning(
+                    'User "%s" not found in allowed list' % params['user'])
+                return False
+            elif params['pass'] != users[params['user']]:
+                logging.warning(
+                    'User "%s" has incorrect password' % params['user'])
+                return False
+        return True
+
     def do_POST(self):
         # get data from POST
         length = int(self.headers['Content-Length'])
@@ -111,6 +131,12 @@ class HTTPHandler(BaseHTTPRequestHandler):
                 self.send_negative_response()
                 return
 
+            # check usernames and password
+            if not self.check_user_password(params):
+                self.send_negative_response()
+                return
+
+            # handle listener_add
             try:
                 self.listener_add(params)
             except sources.IceLaunchError:

@@ -46,6 +46,8 @@ main_opts = [
     Option('icecast_forbid_status', default=False, dtype='bool'),
     Option('legacy_icecast', default=False, dtype='bool'),
 
+    Option('allow_users'),
+
     Option('ffmpeg_wait', default=1.0, dtype='float'),
     Option('ffmpeg_verbose', default=False, dtype='bool'),
     Option('ffmpeg_agent'),
@@ -80,6 +82,16 @@ class Config:
         mainsect = conffile['main']
         for opt in main_opts:
             self.main[opt.name] = opt.get(mainsect)
+
+        # convert users
+        self.allow_users = {}
+        if self.main['allow_users']:
+            for user_passwd in self.main['allow_users'].split():
+                s = user_passwd.split(':')
+                if len(s) != 2:
+                    raise RuntimeError(
+                        'User password combination invalid: "%s"' % user_passwd)
+                self.allow_users[s[0]] = s[1]
 
         # read sections for each mount (called mount.X)
         self.mounts = {}
