@@ -55,7 +55,7 @@ main_opts = [
     Option('log_level', default='info'),
 ]
 
-allowed_modes = set(['copy_aac'])
+allowed_modes = set(['copy_aac', 'copy_mp3'])
 
 # options in [mount.X] sections
 mount_opts = [
