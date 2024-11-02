@@ -87,7 +87,7 @@ def start_source(mount, conf):
 def get_options_mode_copy_aac(mount, conf):
     """Specific options for copy_aac mode."""
     return (
-        ['-f', 'aac'],
+        [],
         [
             '-acodec', 'copy',
             '-content_type', 'audio/aac',
