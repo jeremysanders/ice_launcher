@@ -25,9 +25,11 @@ def start_source(mount, conf):
     ]
 
     if mount_conf['mode'] == 'copy_aac':
-        cmd += get_options_mode_copy_aac(mount, conf)
+        start, stop = get_options_mode_copy_aac(mount, conf)
+        cmd = cmd[0] + start + cmd[1:] + stop
     elif mount_conf['mode'] == 'copy_mp3':
-        cmd += get_options_mode_copy_mp3(mount, conf)
+        start, stop = get_options_mode_copy_mp3(mount, conf)
+        cmd = cmd[0] + start + cmd[1:] + stop
     else:
         raise RuntimeError('Invalid mode')
 
@@ -84,16 +86,22 @@ def start_source(mount, conf):
 
 def get_options_mode_copy_aac(mount, conf):
     """Specific options for copy_aac mode."""
-    return [
-        '-acodec', 'copy',
-        '-content_type', 'audio/aac',
-        '-f', 'adts',
-    ]
+    return (
+        ['-f', 'aac'],
+        [
+            '-acodec', 'copy',
+            '-content_type', 'audio/aac',
+            '-f', 'adts',
+        ]
+    )
 
 def get_options_mode_copy_mp3(mount, conf):
     """Specific options for copy_mp3 mode."""
-    return [
-        '-acodec', 'copy',
-        '-content_type', 'audio/mpeg',
-        '-f', 'mp3',
-    ]
+    return (
+        ['-f', 'mp3'],
+        [
+            '-acodec', 'copy',
+            '-content_type', 'audio/mpeg',
+            '-f', 'mp3',
+        ]
+    )
